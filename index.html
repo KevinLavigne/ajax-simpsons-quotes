@@ -31,7 +31,7 @@
 			<div class="container">
 				<h1 class="title">Simpson API</h1>
 
-				<div class="content" id="simpsonsQuote"></div>
+				<div class="content" id="simpson"></div>
 			</div>
 		</section>
 
@@ -42,21 +42,27 @@
 			crossorigin="anonymous"
 		></script>
 		<script>  
-		function fetchSimpsonQuote() {
-    axios
-      .get('https://simpsons-quotes-api.herokuapp.com/quotes')
-      .then((response) => response.data)
-	  .then((data) => {
+function fetchPokemonJSON() {
+  // Feel free to download this HTML and edit it, to use another Pokemon ID
+  const url = `https://simpsons-quotes-api.herokuapp.com/quotes`;
+  axios.get(url)
+    .then(function(response) {
+      return response.data[0]; // response.data instead of response.json() with fetch
+    })
+    .then(function(simpson) {
+      console.log('data decoded from JSON:', simpson);
 
       // Build a block of HTML
-      const simpsonsQuote = `
-        <p><strong>${data.quote}</strong></p>
-        <img src="${data.image}" alt=${data.character} />
-        <li>Name : ${data.character}</li>
+      const pokemonHtml = `
+        <p><strong>${simpson.character}</strong></p>
+        <img src="${simpson.image}" alt ="${simpson.character}"/>
+		<p>${simpson.quote}</p>
       `;
-      document.getElementById('simpsonsQuote').innerHTML = simpsonsQuote;});
-	  }
-	  fetchSimpsonQuote()
+      document.querySelector('#simpson').innerHTML = pokemonHtml;
+    });
+}
+
+fetchPokemonJSON();
     </script>
 	</body>
 </html>
